@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Employee.Api.Models;
+using Microsoft.AspNetCore.Mvc;
 using Entities = Employee.Domain.Entities;
 
 namespace Employee.Api.Controllers
@@ -18,8 +19,19 @@ namespace Employee.Api.Controllers
           => Ok(new Entities.Employee());
 
         [HttpPost]
-        public ActionResult Create()
-          => Ok();
+        public ActionResult Create([FromBody] EmployeeCommandModel employeeCommandModel)
+        {
+            var employee = new Entities.Employee(
+              employeeCommandModel.Name,
+              employeeCommandModel.BirtDate,
+              employeeCommandModel.Gender,
+              employeeCommandModel.Email,
+              employeeCommandModel.CPF,
+              employeeCommandModel.StartDate,
+              employeeCommandModel.Team);
+
+            return StatusCode(201, employee);
+        }
 
         [HttpPut("{id}")]
         public ActionResult Update(int id)
