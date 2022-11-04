@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Entities = Employee.Domain.Entities;
 
 namespace Employee.Api.Controllers
 {
@@ -9,19 +10,19 @@ namespace Employee.Api.Controllers
         public ClientController() { }
 
         [HttpGet]
-        public ActionResult GetAll()
-          => Ok();
+        public ActionResult<Entities.Employee[]> GetAll()
+          => Ok(new Entities.Employee[] { });
 
         [HttpGet("{id}")]
-        public ActionResult GetById()
-          => Ok();
+        public ActionResult<Entities.Employee> GetById(int id)
+          => Ok(new Entities.Employee());
 
         [HttpPost]
         public ActionResult Create()
           => Ok();
 
         [HttpPut("{id}")]
-        public ActionResult Update()
+        public ActionResult Update(int id)
           => Ok();
 
         [HttpDelete("{id}")]

@@ -14,6 +14,7 @@ namespace Employee.Domain.Entities
         public DateTime StartDate { get; set; }
         public Team? Team { get; set; }
 
+        public Employee() { }
         public Employee(string name, DateTime birthDate, Gender gender, string email, string cpf, DateTime startDate, Team? team)
         {
             Name = name;
@@ -24,6 +25,5 @@ namespace Employee.Domain.Entities
             StartDate = startDate;
             Team = team;
         }
-
     }
 }
