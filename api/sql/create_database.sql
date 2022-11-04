@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS company.employee(
   name VARCHAR(100) NOT NULL,
   CPF VARCHAR(11) NOT NULL,
   birthdate DATE NOT NULL,
-  gender ENUM(1, 2) NOT NULL,
+  gender TINYINT NOT NULL,
   startdate DATE NOT NULL,
-  team ENUM(1, 2, 3)
+  team TINYINT DEFAULT NULL
 );
