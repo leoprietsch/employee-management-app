@@ -1,4 +1,7 @@
 using System.Data;
+using Employee.Domain.Contracts;
+using Employee.Infra.Repositories;
+using Employee.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +36,10 @@ namespace Employee.API
                 });
                   });
 
-            services.AddScoped<IDbConnection>(provider => new MySqlConnection(Configuration.GetConnectionString("MovieRentals")));
+            services.AddScoped<IDbConnection>(provider => new MySqlConnection(Configuration.GetConnectionString("CompanyDB")));
+
+            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 
             services.AddControllers();
 
@@ -51,7 +57,7 @@ namespace Employee.API
             app.UseCors("AllowAll");
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movie Rentals"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Employee API"));
 
             app.UseHttpsRedirection();
 

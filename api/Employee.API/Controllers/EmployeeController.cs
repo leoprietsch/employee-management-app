@@ -1,4 +1,5 @@
 ﻿using Employee.API.Models;
+using Employee.Domain.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Entities = Employee.Domain.Entities;
 
@@ -6,9 +7,11 @@ namespace Employee.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ClientController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
-        public ClientController() { }
+        private readonly IEmployeeService _employeeService;
+        public EmployeeController(IEmployeeService employeeService)
+          => _employeeService = employeeService;
 
         [HttpGet]
         public ActionResult<Entities.Employee[]> GetAll()
