@@ -1,8 +1,8 @@
-﻿using Employee.Api.Models;
+﻿using Employee.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Entities = Employee.Domain.Entities;
 
-namespace Employee.Api.Controllers
+namespace Employee.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

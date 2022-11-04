@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System;
 using Employee.Domain.Entities.Enums;
 
-namespace Employee.Api.Models
+namespace Employee.API.Models
 {
     public class EmployeeCommandModel
     {

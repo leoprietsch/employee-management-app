@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Employee.Api
+namespace Employee.API
 {
     public class Program
     {
