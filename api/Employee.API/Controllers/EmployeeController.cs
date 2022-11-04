@@ -46,11 +46,11 @@ namespace Employee.API.Controllers
         {
             var employee = new Entities.Employee(
               employeeCommandModel.Name,
-              employeeCommandModel.BirthDate,
+              employeeCommandModel.BirthDate.Value,
               employeeCommandModel.Gender,
               employeeCommandModel.Email,
               employeeCommandModel.CPF,
-              employeeCommandModel.StartDate,
+              employeeCommandModel.StartDate.Value,
               employeeCommandModel.Team);
 
             employee = _employeeService.Create(employee);
@@ -64,11 +64,11 @@ namespace Employee.API.Controllers
         {
             var employee = _employeeService.Update(id, new Entities.Employee(
               employeeCommandModel.Name,
-              employeeCommandModel.BirthDate,
+              employeeCommandModel.BirthDate.Value,
               employeeCommandModel.Gender,
               employeeCommandModel.Email,
               employeeCommandModel.CPF,
-              employeeCommandModel.StartDate,
+              employeeCommandModel.StartDate.Value,
               employeeCommandModel.Team));
 
             return Ok(employee);
