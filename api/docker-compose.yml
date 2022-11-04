@@ -1,0 +1,23 @@
+version: "3.8"
+
+networks:
+  application-network:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+      - ./sql/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql:ro
+    networks:
+      - application-network
+
+volumes:
+  db:
+    driver: local
