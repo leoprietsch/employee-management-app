@@ -10,7 +10,7 @@ namespace Employee.API.Models
         public string Name { get; set; }
 
         [Required]
-        public DateTime BirtDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Required]
         [EnumDataType(typeof(Gender))]

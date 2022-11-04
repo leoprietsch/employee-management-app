@@ -46,7 +46,7 @@ namespace Employee.API.Controllers
         {
             var employee = new Entities.Employee(
               employeeCommandModel.Name,
-              employeeCommandModel.BirtDate,
+              employeeCommandModel.BirthDate,
               employeeCommandModel.Gender,
               employeeCommandModel.Email,
               employeeCommandModel.CPF,
@@ -64,7 +64,7 @@ namespace Employee.API.Controllers
         {
             var employee = _employeeService.Update(id, new Entities.Employee(
               employeeCommandModel.Name,
-              employeeCommandModel.BirtDate,
+              employeeCommandModel.BirthDate,
               employeeCommandModel.Gender,
               employeeCommandModel.Email,
               employeeCommandModel.CPF,
