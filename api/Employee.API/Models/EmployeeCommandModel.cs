@@ -13,6 +13,7 @@ namespace Employee.API.Models
         public DateTime BirtDate { get; set; }
 
         [Required]
+        [EnumDataType(typeof(Gender))]
         public Gender Gender { get; set; }
 
         [Required]
@@ -27,7 +28,7 @@ namespace Employee.API.Models
         [Required]
         public DateTime StartDate { get; set; }
 
-        [Required]
+        [EnumDataType(typeof(Team))]
         public Team? Team { get; set; }
     }
 }
