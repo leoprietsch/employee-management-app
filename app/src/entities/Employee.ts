@@ -8,6 +8,6 @@ export default interface Employee {
   gender: Gender;
   email: string;
   CPF: string;
-  startDate: string;
+  startDate: Date;
   team?: Team;
 }
