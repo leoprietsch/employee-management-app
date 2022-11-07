@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, TablePagination } from "@mui/material";
+import { Button } from "@mui/material";
 import Employee from "../entities/Employee";
 import { Team } from "../entities/Enums/Team";
 import { getAll } from "../api/employeeClient";
+import moment from "moment";
 
 function EmployeeDataGrid() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -13,6 +14,10 @@ function EmployeeDataGrid() {
   }, []);
 
   const columns: GridColDef[] = [
+    {
+      field: "id",
+      hide: true,
+    },
     {
       field: "name",
       headerName: "Name",
@@ -31,6 +36,7 @@ function EmployeeDataGrid() {
       flex: 1,
       type: "date",
       headerClassName: "grid-header",
+      valueFormatter: (params) => moment(params.value).format("MMMM, YYYY"),
     },
     {
       field: "team",
@@ -80,6 +86,7 @@ function EmployeeDataGrid() {
     <div style={{ flex: 1, overflow: "auto", margin: "100px" }}>
       <DataGrid
         autoHeight
+        sortModel={[{ field: "id", sort: "desc" }]}
         rows={employees}
         columns={columns}
         pageSize={10}
