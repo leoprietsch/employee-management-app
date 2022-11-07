@@ -7,7 +7,7 @@ export default interface Employee {
   birthDate: Date;
   gender: Gender;
   email: string;
-  CPF: string;
+  cpf: string;
   startDate: Date;
   team?: Team;
 }

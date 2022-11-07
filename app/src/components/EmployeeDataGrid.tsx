@@ -1,46 +1,21 @@
+import "../App.css";
+import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
 import Employee from "../entities/Employee";
 import { Team } from "../entities/Enums/Team";
-import { getAll, remove } from "../api/employeeClient";
-import moment from "moment";
-import {
-  AddOutlined,
-  DeleteForeverOutlined,
-  EditOutlined,
-} from "@mui/icons-material";
+import { getAll } from "../api/employeeClient";
+import { EmployeeFormDialog } from "./EmployeeDialogForm";
+import { EmployeeEditDialogForm } from "./EmployeeEditDialogForm";
+import { DeleteEmployeeButton } from "./DeleteEmployeeButton";
+import { AxiosResponse } from "axios";
 
 function EmployeeDataGrid() {
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
-    getAll().then((res) => setEmployees(res.data));
+    getAll().then((res: AxiosResponse) => setEmployees(res.data));
   }, []);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (id?: number) => {
-    if (id) {
-      remove(id)
-        .then(() => {
-          setEmployees((current) =>
-            current.filter((employee) => employee.id !== id)
-          );
-        })
-        .finally(() => setOpen(false));
-    } else setOpen(false);
-  };
 
   const columns: GridColDef[] = [
     {
@@ -83,6 +58,7 @@ function EmployeeDataGrid() {
       flex: 1,
       headerClassName: "grid-header",
       renderCell: (params) => {
+        const employee = employees.find((e) => e.id === params.row.id);
         return (
           <div
             style={{
@@ -91,43 +67,15 @@ function EmployeeDataGrid() {
               justifyContent: "space-around",
             }}
           >
-            <Button
-              style={{ background: "#dadada", color: "white" }}
-              variant="contained"
-              size="small"
-            >
-              <EditOutlined />
-            </Button>
-            <Button
-              style={{ background: "#f4364c", color: "white" }}
-              variant="contained"
-              size="small"
-              onClick={handleClickOpen}
-            >
-              <DeleteForeverOutlined />
-            </Button>
-            <Dialog
-              open={open}
-              onClose={() => handleClose()}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">DELETE EMPLOYEE</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  This action is irreversible. Are you sure you want to delete
-                  this employee?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => handleClose()} autoFocus>
-                  Cancel
-                </Button>
-                <Button onClick={() => handleClose(params.row.id)}>
-                  Confirm
-                </Button>
-              </DialogActions>
-            </Dialog>
+            <EmployeeEditDialogForm
+              employee={employee}
+              setEmployees={setEmployees}
+            />
+            <DeleteEmployeeButton
+              id={params.row.id}
+              name={params.row.name}
+              setEmployees={setEmployees}
+            />
           </div>
         );
       },
@@ -136,20 +84,14 @@ function EmployeeDataGrid() {
 
   return (
     <div className="grid-container">
-      <Button
-        className="btn-add"
-        style={{ background: "#7ce0d3", color: "white" }}
-        variant="contained"
-        size="large"
-      >
-        <AddOutlined />
-        ADD EMPLOYEE
-      </Button>
+      <EmployeeFormDialog />
       <DataGrid
+        sx={{ background: "white", flex: 1 }}
         autoHeight
         disableSelectionOnClick
+        rowHeight={45}
         sortModel={[{ field: "id", sort: "desc" }]}
-        rows={employees}
+        rows={[...employees]}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
