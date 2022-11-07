@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GridColDef } from "@mui/x-data-grid";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Button, TablePagination } from "@mui/material";
 import Employee from "../entities/Employee";
 import { Team } from "../entities/Enums/Team";
 import { getAll } from "../api/employeeClient";
@@ -40,6 +40,38 @@ function EmployeeDataGrid() {
       valueFormatter: (params) => {
         if (params.value) return Team[params.value];
         else return "N/A";
+      },
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 1,
+      headerClassName: "grid-header",
+      renderCell: () => {
+        return (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <Button
+              style={{ background: "#7ce0d3" }}
+              variant="contained"
+              size="small"
+            >
+              Edit
+            </Button>
+            <Button
+              style={{ background: "#f4364c" }}
+              variant="contained"
+              size="small"
+            >
+              Remove
+            </Button>
+          </div>
+        );
       },
     },
   ];
