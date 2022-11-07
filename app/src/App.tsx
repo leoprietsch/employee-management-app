@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import EmployeeDataGrid from "./components/EmployeeDataGrid";
+import { EmployeeGrid } from "./components/EmployeeGrid";
 
 function App() {
   return (
     <div className="app">
-      <EmployeeDataGrid />
+      <EmployeeGrid />
     </div>
   );
 }

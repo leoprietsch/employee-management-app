@@ -1,43 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { EditOutlined } from "@mui/icons-material";
+import { AddOutlined } from "@mui/icons-material";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Gender } from "../entities/Enums/Gender";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Team } from "../entities/Enums/Team";
 import Employee from "../entities/Employee";
-import { update } from "../api/employeeClient";
+import { create } from "../api/employeeClient";
 import { AxiosResponse } from "axios";
 
 type Props = {
-  employee?: Employee;
   setEmployees: (action: React.SetStateAction<Employee[]>) => void;
 };
 
-function EmployeeEditDialogForm({ employee, setEmployees }: Props) {
+function AddDialogForm({ setEmployees }: Props) {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(employee?.name ?? "");
-  const [birthDate, setBirthDate] = useState(employee?.birthDate ?? new Date());
-  const [gender, setGender] = useState(employee?.gender ?? 0);
-  const [email, setEmail] = useState(employee?.email ?? "");
-  const [cpf, setCpf] = useState(employee?.cpf ?? "");
-  const [startDate, setStartDate] = useState(employee?.startDate ?? new Date());
-  const [team, setTeam] = useState<Team | undefined>(employee?.team ?? 0);
-
-  useEffect(() => {}, [employee]);
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState(new Date());
+  const [gender, setGender] = useState(0);
+  const [email, setEmail] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [team, setTeam] = useState<Team | undefined>(undefined);
 
   const handleDialog = () => {
     setOpen(!open);
   };
 
   const handleEdit = () => {
-    update(employee?.id as number, {
+    create({
       name,
       birthDate,
       gender,
@@ -47,11 +44,7 @@ function EmployeeEditDialogForm({ employee, setEmployees }: Props) {
       team,
     })
       .then((res: AxiosResponse) => {
-        setEmployees((current) => {
-          const index = current.findIndex((e) => e.id === employee?.id);
-          current[index] = res.data as Employee;
-          return [...current];
-        });
+        setEmployees((current) => [...current, res.data as Employee]);
       })
       .finally(() => setOpen(false));
   };
@@ -59,12 +52,19 @@ function EmployeeEditDialogForm({ employee, setEmployees }: Props) {
   return (
     <>
       <Button
-        style={{ background: "#aaa9a9", color: "white" }}
+        className="add-btn"
+        style={{
+          background: "#00aec7",
+          color: "white",
+          marginBottom: "20px",
+          width: "200px",
+        }}
         variant="contained"
-        size="small"
+        size="large"
         onClick={handleDialog}
       >
-        <EditOutlined />
+        <AddOutlined />
+        ADD EMPLOYEE
       </Button>
       <Dialog open={open} onClose={handleDialog}>
         <DialogTitle>Add new employee</DialogTitle>
@@ -182,4 +182,4 @@ function EmployeeEditDialogForm({ employee, setEmployees }: Props) {
   );
 }
 
-export { EmployeeEditDialogForm };
+export { AddDialogForm };

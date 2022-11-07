@@ -5,12 +5,12 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Employee from "../entities/Employee";
 import { Team } from "../entities/Enums/Team";
 import { getAll } from "../api/employeeClient";
-import { EmployeeFormDialog } from "./EmployeeDialogForm";
-import { EmployeeEditDialogForm } from "./EmployeeEditDialogForm";
+import { AddDialogForm } from "./AddDialogForm";
+import { EditDialogForm } from "./EditDialogForm";
 import { DeleteEmployeeButton } from "./DeleteEmployeeButton";
 import { AxiosResponse } from "axios";
 
-function EmployeeDataGrid() {
+function EmployeeGrid() {
   const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
@@ -67,10 +67,7 @@ function EmployeeDataGrid() {
               justifyContent: "space-around",
             }}
           >
-            <EmployeeEditDialogForm
-              employee={employee}
-              setEmployees={setEmployees}
-            />
+            <EditDialogForm employee={employee} setEmployees={setEmployees} />
             <DeleteEmployeeButton
               id={params.row.id}
               name={params.row.name}
@@ -84,7 +81,7 @@ function EmployeeDataGrid() {
 
   return (
     <div className="grid-container">
-      <EmployeeFormDialog />
+      <AddDialogForm setEmployees={setEmployees} />
       <DataGrid
         sx={{ background: "white", flex: 1 }}
         autoHeight
@@ -100,4 +97,4 @@ function EmployeeDataGrid() {
   );
 }
 
-export default EmployeeDataGrid;
+export { EmployeeGrid };
