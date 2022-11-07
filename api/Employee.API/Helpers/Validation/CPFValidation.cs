@@ -11,7 +11,7 @@ namespace Employee.API.Helpers.Validation
         {
             string stringValue = value as string;
 
-            return CpfValidation.Validate(stringValue);
+            return stringValue != null && CpfValidation.Validate(stringValue);
         }
     }
 }
