@@ -1,11 +1,17 @@
-import React from "react";
-import { GridColDef, GridColumnHeaderParams } from "@mui/x-data-grid";
+import React, { useState, useEffect } from "react";
+import { GridColDef } from "@mui/x-data-grid";
 import { DataGrid } from "@mui/x-data-grid";
 import Employee from "../entities/Employee";
-import { Gender } from "../entities/Enums/Gender";
 import { Team } from "../entities/Enums/Team";
+import { getAll } from "../api/employeeClient";
 
 function EmployeeDataGrid() {
+  const [employees, setEmployees] = useState<Employee[]>([]);
+
+  useEffect(() => {
+    getAll().then((res) => setEmployees(res.data));
+  }, []);
+
   const columns: GridColDef[] = [
     {
       field: "name",
@@ -28,9 +34,7 @@ function EmployeeDataGrid() {
     },
     {
       field: "team",
-      renderHeader: (params: GridColumnHeaderParams) => (
-        <strong>{"Team"}</strong>
-      ),
+      headerName: "Team",
       flex: 1,
       headerClassName: "grid-header",
       valueFormatter: (params) => {
@@ -40,51 +44,15 @@ function EmployeeDataGrid() {
     },
   ];
 
-  const rows: Employee[] = [
-    {
-      id: 1,
-      name: "Leonardo Prietsch Oliveira",
-      birthDate: new Date(1997, 8, 18),
-      CPF: "12345678910",
-      gender: Gender.Male,
-      startDate: new Date(),
-      email: "username.lastname@gmail.com",
-      team: 1,
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      birthDate: new Date(1999, 8, 10),
-      CPF: "12345678910",
-      gender: Gender.Female,
-      startDate: new Date(),
-      email: "username.lastname@gmail.com",
-      team: 2,
-    },
-    {
-      id: 3,
-      name: "João Santos",
-      birthDate: new Date(1996, 7, 15),
-      CPF: "12345678910",
-      gender: Gender.Male,
-      startDate: new Date(),
-      email: "username.lastname@gmail.com",
-    },
-    {
-      id: 4,
-      name: "John Doe",
-      birthDate: new Date(1996, 11, 31),
-      CPF: "12345678910",
-      gender: Gender.Male,
-      startDate: new Date(),
-      email: "username.lastname@gmail.com",
-      team: 2,
-    },
-  ];
-
   return (
-    <div style={{ height: "80%", width: "90%" }}>
-      <DataGrid rows={rows} columns={columns} />
+    <div style={{ flex: 1, overflow: "auto", margin: "100px" }}>
+      <DataGrid
+        autoHeight
+        rows={employees}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+      />
     </div>
   );
 }
