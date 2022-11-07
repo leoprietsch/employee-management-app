@@ -90,9 +90,13 @@ function EmployeeDataGrid() {
   ];
 
   return (
-    <div style={{ flex: 1, overflow: "auto", margin: "100px" }}>
+    <div
+      className="grid-container"
+      style={{ flex: 1, overflow: "auto", margin: "100px" }}
+    >
       <DataGrid
         autoHeight
+        disableSelectionOnClick
         sortModel={[{ field: "id", sort: "desc" }]}
         rows={employees}
         columns={columns}
