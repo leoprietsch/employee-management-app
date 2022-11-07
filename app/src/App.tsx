@@ -4,7 +4,7 @@ import EmployeeDataGrid from "./components/EmployeeDataGrid";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <EmployeeDataGrid />
     </div>
   );
