@@ -3,7 +3,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import Employee from "../entities/Employee";
 import { Team } from "../entities/Enums/Team";
-import { getAll } from "../api/employeeClient";
+import { getAll, remove } from "../api/employeeClient";
 import moment from "moment";
 
 function EmployeeDataGrid() {
@@ -53,7 +53,7 @@ function EmployeeDataGrid() {
       headerName: "Actions",
       flex: 1,
       headerClassName: "grid-header",
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <div
             style={{
@@ -73,6 +73,13 @@ function EmployeeDataGrid() {
               style={{ background: "#f4364c" }}
               variant="contained"
               size="small"
+              onClick={() => {
+                remove(params.row.id).then(() => {
+                  setEmployees((current) =>
+                    current.filter((employee) => employee.id !== params.row.id)
+                  );
+                });
+              }}
             >
               Remove
             </Button>
