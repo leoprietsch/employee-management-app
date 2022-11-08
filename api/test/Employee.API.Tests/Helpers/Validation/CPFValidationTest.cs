@@ -1,7 +1,7 @@
 using Xunit;
 using System;
 using Employee.API.Helpers.Validation;
-namespace Employee.API.Tests
+namespace Employee.API.Helpers.Validation.Tests
 {
     public class CPFValidationTest
     {

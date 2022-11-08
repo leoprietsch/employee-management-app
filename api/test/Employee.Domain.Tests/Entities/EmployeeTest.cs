@@ -2,7 +2,7 @@ using Xunit;
 using System;
 using Entities = Employee.Domain.Entities;
 using Employee.Domain.Entities.Enums;
-namespace Employee.API.Tests
+namespace Employee.Domain.Entities.Tests
 {
     public class EmployeeTest
     {
