@@ -30,7 +30,7 @@ function EditDialogForm({ employee, setEmployees }: Props) {
   const [startDate, setStartDate] = useState(employee.startDate ?? new Date());
   const [team, setTeam] = useState<Team>(employee.team ?? 0);
 
-  const handleDialog = () => {
+  const handleOpen = () => {
     setOpen(!open);
   };
 
@@ -63,11 +63,11 @@ function EditDialogForm({ employee, setEmployees }: Props) {
         style={{ background: "#aaa9a9", color: "white" }}
         variant="contained"
         size="small"
-        onClick={handleDialog}
+        onClick={handleOpen}
       >
         <EditOutlined />
       </Button>
-      <Dialog open={open} onClose={handleDialog}>
+      <Dialog open={open} onClose={handleOpen}>
         <DialogTitle>Edit employee</DialogTitle>
         <DialogContent
           style={{
@@ -167,7 +167,7 @@ function EditDialogForm({ employee, setEmployees }: Props) {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleDialog}>
+          <Button variant="outlined" onClick={handleOpen}>
             Cancel
           </Button>
           <Button
