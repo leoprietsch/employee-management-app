@@ -22,12 +22,12 @@ type Props = {
 function AddDialogForm({ setEmployees }: Props) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [birthDate, setBirthDate] = useState(new Date());
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
   const [gender, setGender] = useState(0);
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
-  const [team, setTeam] = useState<Team | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [team, setTeam] = useState<Team>(0);
 
   const handleDialog = () => {
     setOpen(!open);
@@ -36,16 +36,17 @@ function AddDialogForm({ setEmployees }: Props) {
   const handleEdit = () => {
     create({
       name,
-      birthDate,
+      birthDate: birthDate as Date,
       gender,
       email,
       cpf,
-      startDate,
-      team,
+      startDate: startDate as Date,
+      team: team in Team ? team : null,
     })
       .then((res: AxiosResponse) => {
         setEmployees((current) => [...current, res.data as Employee]);
       })
+      .catch((error) => console.log(error))
       .finally(() => setOpen(false));
   };
 
@@ -158,7 +159,7 @@ function AddDialogForm({ setEmployees }: Props) {
               label="Team"
               onChange={(e) => setTeam(e.target.value as number)}
             >
-              <MenuItem>None</MenuItem>
+              <MenuItem value={0}>None</MenuItem>
               <MenuItem value={Team["Back-end"]}>Back-end</MenuItem>
               <MenuItem value={Team["Front-end"]}>Front-end</MenuItem>
               <MenuItem value={Team["Mobile"]}>Mobile</MenuItem>

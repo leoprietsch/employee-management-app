@@ -9,5 +9,5 @@ export default interface Employee {
   email: string;
   cpf: string;
   startDate: Date;
-  team?: Team;
+  team: Team | null;
 }

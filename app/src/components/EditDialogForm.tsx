@@ -16,40 +16,43 @@ import { update } from "../api/employeeClient";
 import { AxiosResponse } from "axios";
 
 type Props = {
-  employee?: Employee;
+  employee: Employee;
   setEmployees: (action: React.SetStateAction<Employee[]>) => void;
 };
 
 function EditDialogForm({ employee, setEmployees }: Props) {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(employee?.name ?? "");
-  const [birthDate, setBirthDate] = useState(employee?.birthDate ?? new Date());
-  const [gender, setGender] = useState(employee?.gender ?? 0);
-  const [email, setEmail] = useState(employee?.email ?? "");
-  const [cpf, setCpf] = useState(employee?.cpf ?? "");
-  const [startDate, setStartDate] = useState(employee?.startDate ?? new Date());
-  const [team, setTeam] = useState<Team | undefined>(employee?.team ?? 0);
+  const [name, setName] = useState(employee.name ?? "");
+  const [birthDate, setBirthDate] = useState(employee.birthDate ?? new Date());
+  const [gender, setGender] = useState(employee.gender ?? 0);
+  const [email, setEmail] = useState(employee.email ?? "");
+  const [cpf, setCpf] = useState(employee.cpf ?? "");
+  const [startDate, setStartDate] = useState(employee.startDate ?? new Date());
+  const [team, setTeam] = useState<Team>(employee.team ?? 0);
 
   const handleDialog = () => {
     setOpen(!open);
   };
 
   const handleEdit = () => {
-    update(employee?.id as number, {
+    update(employee.id as number, {
       name,
       birthDate,
       gender,
       email,
       cpf,
       startDate,
-      team,
+      team: team in Team ? team : null,
     })
       .then((res: AxiosResponse) => {
         setEmployees((current) => {
-          const index = current.findIndex((e) => e.id === employee?.id);
+          const index = current.findIndex((e) => e.id === employee.id);
           current[index] = res.data as Employee;
           return [...current];
         });
+      })
+      .catch((e) => {
+        console.log(e.response);
       })
       .finally(() => setOpen(false));
   };
@@ -65,7 +68,7 @@ function EditDialogForm({ employee, setEmployees }: Props) {
         <EditOutlined />
       </Button>
       <Dialog open={open} onClose={handleDialog}>
-        <DialogTitle>Add new employee</DialogTitle>
+        <DialogTitle>Edit employee</DialogTitle>
         <DialogContent
           style={{
             height: "500px",
@@ -126,13 +129,13 @@ function EditDialogForm({ employee, setEmployees }: Props) {
             required
             id="cpf"
             label="CPF"
+            type="number"
             onChange={(e) => setCpf(e.target.value)}
             inputProps={{
               minlenght: 11,
               maxLength: 11,
             }}
             value={cpf}
-            type="text"
             fullWidth
             variant="outlined"
           />
@@ -156,7 +159,7 @@ function EditDialogForm({ employee, setEmployees }: Props) {
               label="Team"
               onChange={(e) => setTeam(e.target.value as number)}
             >
-              <MenuItem>None</MenuItem>
+              <MenuItem value={0}>None</MenuItem>
               <MenuItem value={Team["Back-end"]}>Back-end</MenuItem>
               <MenuItem value={Team["Front-end"]}>Front-end</MenuItem>
               <MenuItem value={Team["Mobile"]}>Mobile</MenuItem>

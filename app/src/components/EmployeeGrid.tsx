@@ -67,7 +67,10 @@ function EmployeeGrid() {
               justifyContent: "space-around",
             }}
           >
-            <EditDialogForm employee={employee} setEmployees={setEmployees} />
+            <EditDialogForm
+              employee={employee as Employee}
+              setEmployees={setEmployees}
+            />
             <DeleteEmployeeButton
               id={params.row.id}
               name={params.row.name}
