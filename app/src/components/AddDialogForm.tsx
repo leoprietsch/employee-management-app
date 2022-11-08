@@ -29,8 +29,15 @@ function AddDialogForm({ setEmployees }: Props) {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [team, setTeam] = useState<Team>(0);
 
-  const handleDialog = () => {
+  const handleOpen = () => {
     setOpen(!open);
+    setName("");
+    setBirthDate(null);
+    setGender(0);
+    setEmail("");
+    setCpf("");
+    setStartDate(null);
+    setTeam(0);
   };
 
   const handleEdit = () => {
@@ -47,7 +54,7 @@ function AddDialogForm({ setEmployees }: Props) {
         setEmployees((current) => [...current, res.data as Employee]);
       })
       .catch((error) => console.log(error))
-      .finally(() => setOpen(false));
+      .finally(() => handleOpen());
   };
 
   return (
@@ -62,12 +69,12 @@ function AddDialogForm({ setEmployees }: Props) {
         }}
         variant="contained"
         size="large"
-        onClick={handleDialog}
+        onClick={handleOpen}
       >
         <AddOutlined />
         ADD EMPLOYEE
       </Button>
-      <Dialog open={open} onClose={handleDialog}>
+      <Dialog open={open} onClose={handleOpen}>
         <DialogTitle>Add new employee</DialogTitle>
         <DialogContent
           style={{
@@ -167,7 +174,7 @@ function AddDialogForm({ setEmployees }: Props) {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleDialog}>
+          <Button variant="outlined" onClick={handleOpen}>
             Cancel
           </Button>
           <Button
