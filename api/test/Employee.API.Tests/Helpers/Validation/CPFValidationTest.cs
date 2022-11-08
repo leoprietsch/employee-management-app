@@ -6,6 +6,14 @@ namespace Employee.API.Tests
     public class CPFValidationTest
     {
         [Fact]
+        public void CPFValidation_With_Null_CPF_Return_IsValid_False()
+        {
+            var cpfValidation = new CPF();
+            bool result = cpfValidation.IsValid(null);
+            Assert.False(result);
+        }
+
+        [Fact]
         public void CPFValidation_With_Incorrect_CPF_Return_IsValid_False()
         {
             var cpfValidation = new CPF();
